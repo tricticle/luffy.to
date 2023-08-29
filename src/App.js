@@ -115,6 +115,7 @@ useEffect(() => {
                         ))}
                     </div>
                 </section>
+                <div className='inset'>
                 {selectedAnime && (
                     <section className="anime-episodes">
     <h2>{selectedAnime.title} Episodes</h2>
@@ -144,6 +145,7 @@ useEffect(() => {
 </section>
 
                 )}
+                </div>
             </main>
             <footer className='about-page'>
                 <p>&copy; 2023 luffy.to</p>
