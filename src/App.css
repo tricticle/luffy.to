@@ -1,38 +1,313 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+:root {
+  --tran: 0.7s ease;
+  --primary-color: #ff7070;
+  --secondary-color: #9b98ffe7;
+  --background-color: #ffffff;
+  --text-color: #000000;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Unica One', cursive;
+  text-transform: capitalize;
+  --tran: all 0.5s ease;
+  color: dark light;
+  text-wrap: balance;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  font-family: 'Unica One', cursive;
+  scroll-behavior: smooth;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body::-webkit-scrollbar {
+  display: none;
+  color: transparent;
+}
+
+.header {
+  color: var(--text-color);
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 5px;
+  transition: var(--tran);
+  box-shadow: 0px 7px 20px 5px rgba(0, 0, 0, 0.1);
+  background-repeat: none;
+  object-fit: cover;
+  flex-direction: row;
+}
+.header h1{
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+}
+
+.header button {
+  display: flex;
+  font-family: 'Poppins', sans-serif;
+  transition: var(--tran);
+  outline: transparent;
+  border: none;
+  background-color: var(--text-color);
+  border-radius: 2px;
+  color: var(--background-color);
+  font-size: 11px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin: 3px;
+  padding: 5px;
+}
+.anime-episodes{
+    text-align: center;
+    padding: 10px;
+}
+.episode-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.episode-list button {
+    display: flex;
+    font-family: 'Poppins', sans-serif;
+    transition: var(--tran);
+    outline: transparent;
+    border: none;
+    background-color: var(--text-color);
+    border-radius: 2px;
+    color: var(--background-color);
+    font-size: 11px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    margin: 3px;
+    padding: 5px;
+    width: calc(25% - 10px);
+  }
+
+  @keyframes color {
+    0% {
+      color: #ffbdbd;
+    }
+  
+    20% {
+      color: #b882ff;
+    }
+  
+    40% {
+      color: #ff4f4f;
+    }
+  
+    60% {
+      color: #ff4f4f;
+    }
+  
+    80% {
+      color: #b882ff;
+    }
+  
+    100% {
+      color: #ffbebe;
+    }
+  }
+
+  .server-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+  .server-list ul {
+    list-style: none;
+  }
+
+  .server-list a {
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    animation: color 15s infinite;
+  }
+  
+
+.header button:hover {
+  transition: var(--tran);
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border: 3px;
+}
+
+.header:hover {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  transition: var(--tran);
+}
+
+.search-bar{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  .search-bar input[type="text"]{
+    font-size: 10px;
+  }
+  
+  .search-bar button{
+    border-radius: 20px;
+  }
+  .fa-magnifying-glass{
+    font-size: 7px;
+  }
+
+.container {
+  padding: 7px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.anime-list {
+  display: grid;
+  width: 99%;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+  justify-items: center;
+  padding: 5px;
+  align-content: center;
+  align-items: start;
+}
+
+.anime-card {
+  position: relative; 
+  display: flex;
+  width: 100%;
+  max-height: fit-content;
+  min-height: 100px;
+  border-radius: 7px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.111);
+  overflow: hidden;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   flex-direction: column;
+  align-content: center;
+  transition: var(--tran);
+}
+
+.anime-card:hover{
+  transition: var(--tran);
+  box-shadow: 0px 4px 10px hsla(0, 0%, 0%, 0.499);
+}
+
+.anime-card img {
+  display: flex;
+  transition: var(--tran);
+  min-height: 500px;
+  min-width: 100%;
+  height: auto;
+  object-fit:cover;
+  border-radius: 11px;
+  padding: 5px;
+}
+
+.anime-card p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px;
+}
+
+i{
+  border-radius: 2px;
+  padding: 5px;
+  font-size: 10px;
+}
+.anime-card button {
+  transition: var(--tran);
+  text-shadow: 0px 1px  5px var(--text-color);
+  display: flex;
+  margin: 10px;
+  padding: 5px;
+  background-color: hsl(0, 0%, 0%);
+  color: var(--background-color);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px hsla(0, 0%, 0%, 0.3);
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-wrap: nowrap;
 }
 
-.App-link {
-  color: #61dafb;
+
+input[type="text"] {
+    border-radius: 2px;
+    outline: transparent;
+    border: transparent;
+    font-family: 'Unica One', cursive;
+    font-size: 12px;
+    text-align: center;
+    box-shadow: 0px 7px 20px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input[type="text"]:focus {
+  transition: var(--tran);
+  font-family: 'Poppins', sans-serif;
+  border-radius: 3px;
+  outline: none;
+  box-shadow: 0px 8px 7px 2px rgba(0, 0, 0, 0.1);
+}
+
+.about-page {
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  font-family: 'Unica One', cursive;
+  width: 100%;
+  color: var(--text-color);
+  padding: 1px;
+}
+
+.about-page h5{
+  padding: 14px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.about-page h6{
+  font-size: 9px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.about-page p {
+  font-size: 10px;
+  text-decoration: none;
+  padding: 3px;
+}
+
+.about-page p a {
+  font-family: 'Poppins', sans-serif;
+  text-decoration: none;
+  animation: color 15s infinite;
+}
+
+.about-page p a:hover {
+  text-decoration: underline;
+  transition: var(--tran);
 }
