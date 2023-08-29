@@ -89,9 +89,11 @@ useEffect(() => {
         {searchResults.map((anime) => (
             <div key={anime.id} className="anime-card">
                 <img src={anime.image} alt={anime.title} />
+                <div className='ani-detail'>
                 <h3>{anime.title}</h3>
-                <p>Sub/Dub: {anime.subOrDub}</p>
-                <button onClick={() => fetchEpisodes(anime.id)}>watch now</button>
+                <p>language: {anime.subOrDub}</p>
+                </div>
+                <button onClick={() => fetchEpisodes(anime.id)}><i class="fa-solid fa-play"></i></button>
             </div>
         ))}
     </div>
@@ -104,8 +106,10 @@ useEffect(() => {
                         {topAiringAnime.map((anime) => (
                             <div key={anime.id} className="anime-card">
                                 <img src={anime.image} alt={anime.title} />
+                                <div className='ani-detail'>
                                 <h3>{anime.title}</h3>
                                 <p>Genres: {anime.genres.join(', ')}</p>
+                                </div>
                                 <button onClick={() => fetchEpisodes(anime.id)}>watch now</button>
                             </div>
                         ))}
@@ -141,8 +145,8 @@ useEffect(() => {
 
                 )}
             </main>
-            <footer className='about'>
-                <p>&copy; 2023 Anime Streaming App</p>
+            <footer className='about-page'>
+                <p>&copy; 2023 luffy.to</p>
             </footer>
         </div>
     );

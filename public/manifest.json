@@ -1,0 +1,40 @@
+{
+  "name": "luffy-to",
+  "short_name": "luffy-to",
+  "start_url": "/?home=true",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "assets/logo-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/logo-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#e0fffa",
+  "background_color": "#FFFFFF",
+  "orientation": "portrait-primary",
+  "cache": [
+    "/",
+    "index.html",
+    "assets/logo-144x144.png",
+    "assets/logo-512x512.png",
+    "App.css",
+    "App.js"
+  ],
+  "dir": "auto",
+  "display_override": [
+    "window-controls-overlay"
+  ],
+  "categories": [
+    "photo",
+    "arts",
+    "aiart"
+  ],
+  "description": "luffy.to | browse and stream anime",
+  "lang": "en"
+}
