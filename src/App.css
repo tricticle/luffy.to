@@ -29,10 +29,19 @@ body::-webkit-scrollbar {
   color: transparent;
 }
 
-.header {
-  background-color: white;
+.wrapper {
   position: fixed;
-  min-width: 96%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(70px);
+  border-radius:7px;
+}
+
+.header {
+  background-color: var(--background-color);
   color: var(--text-color);
   display: flex;
   align-items: center;

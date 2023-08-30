@@ -77,6 +77,7 @@ useEffect(() => {
 
     return (
         <div>
+            <section class="wrapper">
             <header className='header'>
                 <h1>luffy.to</h1>
                 <div className="search-bar">
@@ -90,6 +91,7 @@ useEffect(() => {
                     <button id="searchButton"><i className="fas fa-magnifying-glass"></i></button>
                 </div>
             </header>
+            </section>
 
             <section className="search-results">
     <div className="anime-list">
