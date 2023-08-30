@@ -97,7 +97,7 @@ useEffect(() => {
             <div key={anime.id} className="anime-card">
                 <img src={anime.image} alt={anime.title} />
                 <div className='ani-detail'>
-                <h3>{anime.title}</h3>
+ <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
                 <p>language: {anime.subOrDub}</p>
                 </div>
                 <button onClick={() => fetchEpisodes(anime.id)}><i class="fa-solid fa-play"></i></button>
@@ -114,7 +114,7 @@ useEffect(() => {
                             <div key={anime.id} className="anime-card">
                                 <img src={anime.image} alt={anime.title} />
                                 <div className='ani-detail'>
-                                <h3>{anime.title}</h3>
+                                <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
                                 <p>Genres: {anime.genres.join(', ')}</p>
                                 </div>
                                 <button onClick={() => fetchEpisodes(anime.id)}>watch now</button>
@@ -126,7 +126,7 @@ useEffect(() => {
                 {selectedAnime && (
                     <section className="anime-episodes">
                         <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
-    <h2>{selectedAnime.title} Episodes</h2>
+                        <h2>{selectedAnime.length > 30 ? selectedAnime.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
     <div className="episode-list">
         {selectedAnime.episodes.map((episode) => (
             <button
