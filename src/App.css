@@ -161,11 +161,10 @@ body::-webkit-scrollbar {
   top: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.315); /* Changed to a semi-transparent black */
-  backdrop-filter: blur(7px);
-  border-radius: 10px;
+  background-color: rgba(162, 176, 255, 0.17); /* Changed to a semi-transparent black */
+  backdrop-filter: blur(17px);
   text-align: center;
-  padding: 20px;
+  padding: 69px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -173,12 +172,35 @@ body::-webkit-scrollbar {
   z-index: 9999; /* Higher z-index to make it appear above the inset */
   overflow-y: auto; /* Enable vertical scrolling */
 }
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: calc(3% - 1px);
+  display: flex;
+  padding: 5px;
+  margin: 3px;
+  height: 30px;
+  width: 30px;
+  border: none;
+  border-radius: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+.fa-close{
+  font-size: 11px;
+}
+
+/* Rest of your existing CSS */
+
 
 /* Style the episode list */
 .episode-list {
   background-color: var(--secondary-color);
-  padding: 30px;
   border-radius: 10px;
+  padding: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -325,6 +347,8 @@ body::-webkit-scrollbar {
 
 
 .server-list{
+  background-color: var(--primary-color);
+  margin: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -333,15 +357,40 @@ body::-webkit-scrollbar {
   align-content: center;
   text-align: center;
   padding: 20px;
+  border-radius: 10px;
 }
-.server-list ul {
-  list-style: none;
+.server-list .server-btn {
+  display: flex;
+  text-align: center;
+  inset: 0;
+  border-radius: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+
+.server-btn button{
+  background-color: var(--background-color);
+  display: flex;
+  padding: 5px;
+  margin: 3px;
+  border: none;
+  border-radius: 10px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  animation: color 15s infinite;
 }
 
 .server-list a {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Unica One', sans-serif;
+  font-weight: 900;
   text-decoration: none;
-  animation: color 15s infinite;
+  color: var(--text-color);
+  text-align: center;
 }
 
 /* Additional styles for buttons */

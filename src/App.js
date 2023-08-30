@@ -58,14 +58,21 @@ function App() {
     }
 };
 useEffect(() => {
-    if (selectedServer && selectedServer.length > 0) {
-        // Generate and open watch links for each server
-        selectedServer.forEach(server => {
-            const watchLink = `${server.url}?server=gogocdn`;
-            window.open(watchLink, '_blank');
-        });
-    }
+    const openWatchLinks = () => {
+        if (selectedServer && selectedServer.length > 0) {
+            // Generate and open watch links for each server
+            selectedServer.forEach(server => {
+                const watchLink = `${server.url}?server=gogocdn`;
+                window.open(watchLink, '_blank');
+            });
+        }
+    };
+
+    return () => {
+        openWatchLinks();
+    };
 }, [selectedServer]);
+
 
 
     return (
@@ -118,6 +125,7 @@ useEffect(() => {
                 <div className='inset'>
                 {selectedAnime && (
                     <section className="anime-episodes">
+                        <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
     <h2>{selectedAnime.title} Episodes</h2>
     <div className="episode-list">
         {selectedAnime.episodes.map((episode) => (
@@ -131,15 +139,16 @@ useEffect(() => {
     {selectedServer && selectedServer.length > 0 && (
         <div className="server-list">
             <h3>Server List</h3>
-            <ul>
+            <div className='server-btn'>
                 {selectedServer.map(server => (
-                    <li key={server.name}>
+                    <button key={server.name}>
                         <a href={`${server.url}?server=gogocdn`} target="_blank" rel="noopener noreferrer">
                             {server.name}
                         </a>
-                    </li>
+                        <i class="fa-solid fa-play"></i>
+                    </button>
                 ))}
-            </ul>
+            </div>
         </div>
     )}
 </section>
