@@ -63,7 +63,7 @@ useEffect(() => {
             // Generate and open watch links for each server
             selectedServer.forEach(server => {
                 const watchLink = `${server.url}?server=gogocdn`;
-                window.open(watchLink, '_blank');
+                console.clear(watchLink, '_blank');
             });
         }
     };
