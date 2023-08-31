@@ -49,7 +49,7 @@ body::-webkit-scrollbar {
   padding: 10px;
   border-radius: 7px;
   transition: var(--tran);
-  box-shadow: 0px 7px 20px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 7px 20px 5px rgba(0, 0, 0, 0.199);
   background-repeat: none;
   object-fit: cover;
   flex-direction: row;
@@ -61,7 +61,7 @@ body::-webkit-scrollbar {
     font-size: 20px;
 }
 
-.header button {
+.menu-btn button {
   display: flex;
   font-family: 'Poppins', sans-serif;
   transition: var(--tran);
@@ -80,8 +80,53 @@ body::-webkit-scrollbar {
   padding: 5px;
 }
 
+.dropdown {
+  display: flex;
+display: none;
+}
 
-.header button:hover {
+.dropdown.open {
+  display: flex;
+  position: absolute;
+  top: 69px;
+  right: 7px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.247);
+  padding: 10px;
+  z-index: 1;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 2px;
+}
+
+.dropdown ul {
+  display: flex;
+  list-style: none;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown li {
+  padding: 5px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.dropdown li:hover {
+  background-color: var(--secondary-color);
+  border-radius: 3px;
+  transition: var(--tran);
+}
+
+.menu-btn button:hover {
   transition: var(--tran);
   color: var(--text-color);
   background-color: var(--background-color);
@@ -107,10 +152,10 @@ body::-webkit-scrollbar {
     font-size: 10px;
   }
   
-  .search-bar button{
+  .menu-btn button{
     border-radius: 20px;
   }
-  .fa-magnifying-glass{
+  .fa-bars{
     font-size: 7px;
   }
   
@@ -428,7 +473,7 @@ input[type="text"] {
     font-family: 'Unica One', cursive;
     font-size: 12px;
     text-align: center;
-    box-shadow: 0px 7px 20px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 7px 20px 3px rgba(0, 0, 0, 0.13);
     padding: 10px;
 }
 

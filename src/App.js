@@ -8,6 +8,8 @@ function App() {
   const [topAiringAnime, setTopAiringAnime] = useState([]);
   const [selectedAnime, setSelectedAnime] = useState(null);
   const [selectedServer, setSelectedServer] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
   useEffect(() => {
       const fetchData = async () => {
@@ -33,6 +35,11 @@ function App() {
 
       fetchData();
   }, [searchQuery]);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+  
 
   const fetchEpisodes = async (animeId) => {
       try {
@@ -88,8 +95,18 @@ useEffect(() => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    <button id="searchButton"><i className="fas fa-magnifying-glass"></i></button>
                 </div>
+                <div className="menu-btn">
+  <button onClick={toggleMenu}>
+    <i className="fas fa-bars"></i>
+  </button>
+  <div className={`dropdown ${isMenuOpen ? 'open' : ''}`}>
+    <ul>
+      <li>adding options soon</li>
+    </ul>
+  </div>
+</div>
+
             </header>
             </section>
 
