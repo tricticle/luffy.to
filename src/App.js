@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
+// Set the base URL for Axios requests
+axios.defaults.baseURL = 'http://localhost:8080'; // Replace with your server's URL
+
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -10,71 +13,62 @@ function App() {
   const [selectedServer, setSelectedServer] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
   useEffect(() => {
-      const fetchData = async () => {
-          try {
-              if (searchQuery) {
-                  const response = await axios.get(
-                      `https://api.consumet.org/anime/gogoanime/${searchQuery}?page=1`
-                  );
-                  setSearchResults(response.data.results);
-              } else {
-                  setSearchResults([]);
-              }
+    const fetchData = async () => {
+      try {
+        if (searchQuery) {
+          const response = await axios.get(`/search?q=${searchQuery}`, {mode:'cors'});
+          setSearchResults(response.data.results);
+        } else {
+          setSearchResults([]);
+        }
 
-              const topAiringResponse = await axios.get(
-                  "https://api.consumet.org/anime/gogoanime/top-airing",
-                  { params: { page: 1 } }
-              );
-              setTopAiringAnime(topAiringResponse.data.results);
-          } catch (error) {
-              console.error("Error fetching data:", error);
-          }
-      };
+        const topAiringResponse = await axios.get('/top-airing', {
+          params: { page: 1 }
+        });
+        setTopAiringAnime(topAiringResponse.data.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-      fetchData();
+    fetchData();
   }, [searchQuery]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  
 
   const fetchEpisodes = async (animeId) => {
-      try {
-          const response = await axios.get(
-              `https://api.consumet.org/anime/gogoanime/info/${animeId}`
-          );
-          setSelectedAnime(response.data);
-      } catch (error) {
-          console.error("Error fetching episodes:", error);
-      }
+    try {
+      const response = await axios.get(`/episodes/watch/${animeId}`);
+      setSelectedAnime(response.data);
+    } catch (error) {
+      console.error("Error fetching episodes:", error);
+    }
   };
 
   const watchEpisode = async (episodeId) => {
     if (selectedAnime) {
-        try {
-            const response = await axios.get(
-                `https://api.consumet.org/anime/gogoanime/servers/${episodeId}`
-            );
-            setSelectedServer(response.data); // Store server data
-        } catch (error) {
-            console.error("Error fetching server:", error);
-        }
+      try {
+        const response = await axios.get(`/servers/${episodeId}`);
+        setSelectedServer(response.data);
+      } catch (error) {
+        console.error("Error fetching server:", error);
+      }
     }
-};
-useEffect(() => {
-    const openWatchLinks = () => {
-        if (selectedServer && selectedServer.length > 0) {
-            // Generate and open watch links for each server
-            selectedServer.forEach(server => {
-                const watchLink = `${server.url}?server=gogocdn`;
-                console.clear(watchLink, '_blank');
-            });
-        }
-    };
+  };
 
+  useEffect(() => {
+    const openWatchLinks = () => {
+      if (selectedServer && selectedServer.length > 0) {
+        // Generate and open watch links for each server
+        selectedServer.forEach((server) => {
+          const watchLink = `${server.url}?server=gogocdn`;
+          window.open(watchLink, '_blank');
+        });
+      }
+    };
     return () => {
         openWatchLinks();
     };
@@ -134,7 +128,7 @@ useEffect(() => {
                                 <img src={anime.image} alt={anime.title} />
                                 <div className='ani-detail'>
                                 <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
-                                <p>Genres: {anime.genres.join(', ')}</p>
+                                <p>Genres: {anime.genres.slice(0, 3).join(', ')}</p>
                                 </div>
                                 <button onClick={() => fetchEpisodes(anime.id)}>watch now</button>
                             </div>
