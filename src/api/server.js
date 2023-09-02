@@ -4,7 +4,7 @@ const app = express();
 const path = require('path');
 const port = 8080; // Choose a port for your server
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 
