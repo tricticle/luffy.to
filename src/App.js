@@ -7,81 +7,70 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [topAiringAnime, setTopAiringAnime] = useState([]);
   const [selectedAnime, setSelectedAnime] = useState(null);
-  const [selectedServer, setSelectedServer] = useState('');
+  const [selectedServer, setSelectedServer] = useState([]);
+  const [selectedEpisodeUrl, setSelectedEpisodeUrl] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
   useEffect(() => {
-      const fetchData = async () => {
-          try {
-              if (searchQuery) {
-                  const response = await axios.get(
-                      `https://api.consumet.org/anime/gogoanime/${searchQuery}?page=1`
-                  );
-                  setSearchResults(response.data.results);
-                  console.log(response.data);
-              } else {
-                  setSearchResults([]);
-              }
+    const fetchData = async () => {
+      try {
+        if (searchQuery) {
+          const response = await axios.get(
+            `https://api.consumet.org/anime/gogoanime/${searchQuery}?page=1`
+          );
+          setSearchResults(response.data.results);
+          console.log(response.data);
+        } else {
+          setSearchResults([]);
+        }
 
-              const topAiringResponse = await axios.get(
-                  "https://api.consumet.org/anime/gogoanime/top-airing",
-                  { params: { page: 1 } }
-              );
-              setTopAiringAnime(topAiringResponse.data.results);
-          } catch (error) {
-              console.error("Error fetching data:", error);
-          }
-      };
+        const topAiringResponse = await axios.get(
+          "https://api.consumet.org/anime/gogoanime/top-airing",
+          { params: { page: 1 } }
+        );
+        setTopAiringAnime(topAiringResponse.data.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-      fetchData();
+    fetchData();
   }, [searchQuery]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  
 
   const fetchEpisodes = async (animeId) => {
-      try {
-          const response = await axios.get(
-              `https://api.consumet.org/anime/gogoanime/info/${animeId}`
-          );
-          setSelectedAnime(response.data);
-          console.log(response.data);
-      } catch (error) {
-          console.error("Error fetching episodes:", error);
-      }
+    try {
+      const response = await axios.get(
+        `https://api.consumet.org/anime/gogoanime/info/${animeId}`
+      );
+      setSelectedAnime(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching episodes:", error);
+    }
   };
 
   const watchEpisode = async (episodeId) => {
     if (selectedAnime) {
-        try {
-            const response = await axios.get(
-                `https://api.consumet.org/anime/gogoanime/servers/${episodeId}`
-            );
-            setSelectedServer(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.error("Error fetching server:", error);
-        }
-    }
-};
-useEffect(() => {
-    const openWatchLinks = () => {
-        if (selectedServer && selectedServer.length > 0) {
-            // Generate and open watch links for each server
-            selectedServer.forEach(server => {
-                const watchLink = `${server.url}?server=gogocdn`;
-                console.clear(watchLink, '_blank');
-            });
-        }
-    };
+      try {
+        const response = await axios.get(
+          `https://api.consumet.org/anime/gogoanime/servers/${episodeId}`
+        );
+        setSelectedServer(response.data);
+        console.log(response.data);
 
-    return () => {
-        openWatchLinks();
-    };
-}, [selectedServer]);
+        // Assuming the first server in the list has the episode URL
+        if (response.data.length > 0) {
+          setSelectedEpisodeUrl(response.data[0].url);
+        }
+      } catch (error) {
+        console.error("Error fetching server:", error);
+      }
+    }
+  };
 
 
 
@@ -145,38 +134,48 @@ useEffect(() => {
                     </div>
                 </section>
                 <div className='inset'>
-                {selectedAnime && (
-                    <section className="anime-episodes">
-                        <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
-                        <h2>{selectedAnime.length > 30 ? selectedAnime.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
-    <div className="episode-list">
-        {selectedAnime.episodes.map((episode) => (
-            <button
-                key={episode.id}
-                onClick={() => watchEpisode(episode.id)}>
-                Episode {episode.number}
-            </button>
-        ))}
-    </div>
-    {selectedServer && selectedServer.length > 0 && (
-        <div className="server-list">
-            <h3>Server List</h3>
-            <div className='server-btn'>
-                {selectedServer.map(server => (
-                    <button key={server.name}>
-                        <a href={`${server.url}?server=gogocdn`} target="_blank" rel="noopener noreferrer">
-                            {server.name}
-                        </a>
-                        <i className="fa-solid fa-play"></i>
-                    </button>
-                ))}
-            </div>
-        </div>
-    )}
-</section>
+          {selectedAnime && (
+            <section className="anime-episodes">
+              <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
+              <h2>{selectedAnime.title.length > 30 ? selectedAnime.title.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
+              <div className="episode-list">
+              <div className='video'>
+  {selectedEpisodeUrl && (
+    <iframe
+      title="Anime Episode"
+      src={selectedEpisodeUrl}
+      allowFullScreen
+      referrerpolicy="origin-when-cross-origin"
+    />
+  )}
+</div>
 
-                )}
+                {selectedAnime.episodes.map((episode) => (
+                  <button
+                    key={episode.id}
+                    onClick={() => watchEpisode(episode.id)}>
+                    Episode {episode.number}
+                  </button>
+                ))}
+              </div>
+              {selectedServer.length > 0 && (
+                <div className="server-list">
+                  <h3>Server List</h3>
+                  <div className='server-btn'>
+                    {selectedServer.map(server => (
+                      <button
+                        key={server.name}
+                        onClick={() => setSelectedEpisodeUrl(server.url)}>
+                        {server.name}
+                        <i className="fa-solid fa-play"></i>
+                      </button>
+                    ))}
+                  </div>
                 </div>
+              )}
+            </section>
+          )}
+        </div>
             </main>
             <footer className='about-page'>
                 <p>&copy; 2023 luffy.to</p>
