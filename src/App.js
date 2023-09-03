@@ -130,16 +130,16 @@ useEffect(() => {
             <main className='container'>
 
                 <section className="top-airing">
-                    <h2>Top Airing Now</h2>
+                    <h2>Popular</h2>
                     <div className="anime-list">
                         {topAiringAnime.map((anime) => (
-                            <div key={anime.id} className="anime-card">
+                            <div key={anime.id} className="anime-card" onClick={() => fetchEpisodes(anime.id)}>
                                 <img src={anime.image} alt={anime.title} />
                                 <div className='ani-detail'>
                                 <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
                                 <p>{anime.genres.slice(0, 3).join(', ')}</p>
                                 </div>
-                                <button onClick={() => fetchEpisodes(anime.id)}>watch now</button>
+                                
                             </div>
                         ))}
                     </div>
