@@ -117,7 +117,6 @@ function App() {
     </div>
 </section>
             <main className='container'>
-
                 <section className="top-airing">
                     <h2>Popular</h2>
                     <div className="anime-list">
@@ -149,8 +148,7 @@ function App() {
     />
   )}
 </div>
-
-                {selectedAnime.episodes.map((episode) => (
+                 {selectedAnime.episodes.map((episode) => (
                   <button
                     key={episode.id}
                     onClick={() => watchEpisode(episode.id)}>

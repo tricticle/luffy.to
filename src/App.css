@@ -19,16 +19,18 @@
   text-wrap: balance;
 }
 .video {
-  position: relative; /* Positioning context for absolute positioning */
+  position: relative;
   width: 100%;
-  height: 0; /* To maintain aspect ratio */
-  padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100%) */
+  height: 100%;
+  padding-bottom: 56.25%;
+  overflow: hidden;
 }
 
 .video iframe {
   position: absolute;
   width: 100%;
   height: 100%;
+  border: none;
 }
 
 body {
@@ -200,10 +202,8 @@ display: none;
 
 .anime-episodes{
   position: fixed;
-  top: 69px;
-  right: 7px;
-  bottom: 10px;
-  left: 7px;
+  margin-top: 69px;
+  inset: 0;
   background-color: var(--background-color);
   color: var(--text-color);
   border-radius: 4px;
@@ -259,7 +259,7 @@ display: none;
 
 .close-button {
   position: absolute;
-  top: 10px;
+  top: 5px;
   right: calc(3% - 1px);
   display: flex;
   padding: 5px;
