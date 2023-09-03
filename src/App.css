@@ -159,15 +159,16 @@ display: none;
     font-size: 7px;
   }
   
-.container {
-  margin: 5px;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
-}
+  .container {
+    margin: -20px 5px 5px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    max-width: 1000px;
+  }
 .top-airing{
   display: flex;
   flex-direction: column;
@@ -183,8 +184,6 @@ display: none;
   top: 10;
   overflow-y: auto;
   background-color: white;
-  height: 100vh;
-  width: 100vh;
 }
 
 .anime-episodes{
@@ -298,7 +297,7 @@ display: none;
   flex-wrap: nowrap;
   align-content: center;
   justify-content: center;
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
 }
 .search-results .anime-card {
   flex-grow: 1;
@@ -334,6 +333,14 @@ display: none;
   max-height: 30px;
   max-width: 30px;
   border-radius: 100%;
+}
+
+.top-airing .anime-list{
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .anime-list {
@@ -427,6 +434,7 @@ display: none;
 /* Additional styles for buttons */
 
 .ani-detail{
+  flex: 1;
   text-align: center;
   text-wrap:balance;
 }

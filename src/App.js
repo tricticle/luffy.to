@@ -19,6 +19,7 @@ function App() {
                       `https://api.consumet.org/anime/gogoanime/${searchQuery}?page=1`
                   );
                   setSearchResults(response.data.results);
+                  console.log(response.data);
               } else {
                   setSearchResults([]);
               }
@@ -47,6 +48,7 @@ function App() {
               `https://api.consumet.org/anime/gogoanime/info/${animeId}`
           );
           setSelectedAnime(response.data);
+          console.log(response.data);
       } catch (error) {
           console.error("Error fetching episodes:", error);
       }
@@ -58,7 +60,8 @@ function App() {
             const response = await axios.get(
                 `https://api.consumet.org/anime/gogoanime/servers/${episodeId}`
             );
-            setSelectedServer(response.data); // Store server data
+            setSelectedServer(response.data);
+            console.log(response.data);
         } catch (error) {
             console.error("Error fetching server:", error);
         }
@@ -84,7 +87,7 @@ useEffect(() => {
 
     return (
         <div>
-            <section class="wrapper">
+            <section className="wrapper">
             <header className='header'>
                 <h1>luffy.to</h1>
                 <div className="search-bar">
@@ -117,9 +120,9 @@ useEffect(() => {
                 <img src={anime.image} alt={anime.title} />
                 <div className='ani-detail'>
  <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
-                <p>language: {anime.subOrDub}</p>
+                <p>{anime.subOrDub}</p>
                 </div>
-                <button onClick={() => fetchEpisodes(anime.id)}><i class="fa-solid fa-play"></i></button>
+                <button onClick={() => fetchEpisodes(anime.id)}><i className="fa-solid fa-play"></i></button>
             </div>
         ))}
     </div>
@@ -134,7 +137,7 @@ useEffect(() => {
                                 <img src={anime.image} alt={anime.title} />
                                 <div className='ani-detail'>
                                 <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
-                                <p>Genres: {anime.genres.join(', ')}</p>
+                                <p>{anime.genres.slice(0, 3).join(', ')}</p>
                                 </div>
                                 <button onClick={() => fetchEpisodes(anime.id)}>watch now</button>
                             </div>
@@ -164,7 +167,7 @@ useEffect(() => {
                         <a href={`${server.url}?server=gogocdn`} target="_blank" rel="noopener noreferrer">
                             {server.name}
                         </a>
-                        <i class="fa-solid fa-play"></i>
+                        <i className="fa-solid fa-play"></i>
                     </button>
                 ))}
             </div>
