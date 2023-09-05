@@ -16,7 +16,11 @@ function App() {
       try {
         if (searchQuery) {
           const response = await axios.get(
-            `https://api.consumet.org/anime/gogoanime/${searchQuery}?page=1`
+            `https://api.consumet.org/anime/gogoanime/${searchQuery}?page=1`,{
+              method: 'GET',
+              credentials: "same-origin",
+              'Access-Control-Allow-Origin': '*'
+            }
           );
           setSearchResults(response.data.results);
           console.log(response.data);
@@ -25,7 +29,11 @@ function App() {
         }
 
         const topAiringResponse = await axios.get(
-          "https://api.consumet.org/anime/gogoanime/top-airing",
+          "https://api.consumet.org/anime/gogoanime/top-airing",{
+            method: 'GET',
+            credentials: "same-origin",
+            'Access-Control-Allow-Origin': '*'
+          },
           { params: { page: 1 } }
         );
         setTopAiringAnime(topAiringResponse.data.results);
@@ -44,7 +52,11 @@ function App() {
   const fetchEpisodes = async (animeId) => {
     try {
       const response = await axios.get(
-        `https://api.consumet.org/anime/gogoanime/info/${animeId}`
+        `https://api.consumet.org/anime/gogoanime/info/${animeId}`,{
+          method: 'GET',
+          credentials: "same-origin",
+          'Access-Control-Allow-Origin': '*'
+        }
       );
       setSelectedAnime(response.data);
       console.log(response.data);
@@ -57,7 +69,11 @@ function App() {
     if (selectedAnime) {
       try {
         const response = await axios.get(
-          `https://api.consumet.org/anime/gogoanime/servers/${episodeId}`
+          `https://api.consumet.org/anime/gogoanime/servers/${episodeId}`,{
+            method: 'GET',
+            credentials: "same-origin",
+            'Access-Control-Allow-Origin': '*'
+          }
         );
         setSelectedServer(response.data);
         console.log(response.data);
@@ -71,8 +87,6 @@ function App() {
       }
     }
   };
-
-
 
     return (
         <div>
