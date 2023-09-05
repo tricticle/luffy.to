@@ -27,11 +27,12 @@
 }
 
 .video iframe {
+  min-width: 100%;
+  min-height: 100%;
   position: absolute;
-  width: 100%;
-  height: 100%;
   border: none;
   outline: none;
+  inset: 0;
 }
 
 body {
@@ -399,7 +400,6 @@ display: none;
 
 .server-list{
   background-color: var(--primary-color);
-  margin: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -407,7 +407,7 @@ display: none;
   flex-direction: column;
   align-content: center;
   text-align: center;
-  padding: 20px;
+  padding: 7px;
   border-radius: 10px;
 }
 .server-list .server-btn {
@@ -434,6 +434,7 @@ display: none;
   justify-content: space-between;
   align-items: center;
   animation: color 15s infinite;
+  font-size: 1px;
 }
 
 .server-list a {
