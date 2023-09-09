@@ -15,7 +15,7 @@ function FullInset({ selectedAnime, selectedEpisodeUrl, watchEpisode, selectedSe
                 <iframe
                   title="Anime Episode"
                   src={selectedEpisodeUrl}
-                  allowFullScreen="true" marginWidth="0" marginHeight="0" scrolling="no" frameBorder="0" width="899px" height="506px"
+                  allowFullScreen="true" marginWidth="0" marginHeight="0" scrolling="no" frameBorder="0"
                 />
               )}
             </div>
