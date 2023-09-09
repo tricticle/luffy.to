@@ -19,20 +19,22 @@
   text-wrap: balance;
 }
 .video {
-  position: relative;
+  position:relative;
   width: 100%;
   height: 100%;
-  padding-bottom: 56.25%;
-  overflow: hidden;
 }
 
 .video iframe {
-  min-width: 100%;
-  min-height: 100%;
   position: absolute;
+  width: 100%;
+  height: 100%;
   border: none;
   outline: none;
-  inset: 0;
+  padding: 10px;
+  background-color: var(--text-color);
+  border-radius: 7px;
+  overflow: hidden;
+  border: none;
 }
 
 body {
@@ -229,13 +231,14 @@ display: none;
 }
 
 .episode-list{
-  flex-grow: 1; /* Allow the list to grow and fill available space */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
   height: 100%;
-  width: 100%;
+  width: calc(100% + 20px);
+  gap: 5px;
 }
 
 .episode-list::-webkit-scrollbar {
@@ -243,20 +246,13 @@ display: none;
 }
 
 .episode-list button{
-  transition: var(--tran);
-  text-shadow: 0px 1px  5px var(--text-color);
-  display: flex;
-  margin: 10px;
-  padding: 5px;
-  background-color: var(--text-color);
-  color: var(--background-color);
   border: none;
+  padding: 3px;
+  background-color: var(--secondary-color);
+  margin: 3px;
   border-radius: 3px;
-  cursor: pointer;
-  box-shadow: 0px 4px 10px hsla(0, 0%, 0%, 0.3);
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
+  color: var(--background-color);
+  width: calc(100px + 20px);
 }
 
 .close-button {
@@ -400,28 +396,22 @@ display: none;
 
 .server-list{
   background-color: var(--primary-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-content: center;
+  margin: 10px;
   text-align: center;
-  padding: 7px;
-  border-radius: 10px;
+  padding: 10px;
+  border-radius: 5px;
 }
 .server-list .server-btn {
   display: flex;
   text-align: center;
   inset: 0;
   border-radius: 100%;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
 }
 
 .server-btn button{
+  flex: 1;
   background-color: var(--background-color);
   display: flex;
   padding: 5px;
@@ -481,6 +471,7 @@ i{
   justify-content: center;
   flex-wrap: nowrap;
 }
+
 
 
 input[type="text"] {

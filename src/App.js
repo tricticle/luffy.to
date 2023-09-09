@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import FullInset from './FullInset';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -74,10 +72,7 @@ function App() {
     }
   };
 
-
-
     return (
-      <BrowserRouter>
         <div>
             <section className="wrapper">
             <header className='header'>
@@ -135,23 +130,52 @@ function App() {
                         ))}
                     </div>
                 </section>
-      <Routes>y
-      <Route path="/" element={<FullInset
-          selectedAnime={selectedAnime}
-          selectedEpisodeUrl={selectedEpisodeUrl}
-          watchEpisode={watchEpisode}
-          selectedServer={selectedServer}
-          setSelectedAnime={setSelectedAnime}
-          setSelectedEpisodeUrl={setSelectedEpisodeUrl}
-        />} />
-        </Routes>
-
+                <div className='inset'>
+          {selectedAnime && (
+            <section className="anime-episodes">
+              <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
+              <h2>{selectedAnime.title.length > 30 ? selectedAnime.title.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
+              <div className="episode-list">
+              <div className='video'>
+  {selectedEpisodeUrl && (
+    <iframe
+      title="Anime Episode"
+      src={selectedEpisodeUrl}
+      allowFullScreen
+      referrerpolicy="origin-when-cross-origin"
+    />
+  )}
+</div>
+                 {selectedAnime.episodes.map((episode) => (
+                  <button
+                    key={episode.id}
+                    onClick={() => watchEpisode(episode.id)}>
+                    Episode {episode.number}
+                  </button>
+                ))}
+              </div>
+              {selectedServer.length > 0 && (
+                <div className="server-list">
+                  <div className='server-btn'>
+                    {selectedServer.map(server => (
+                      <button
+                        key={server.name}
+                        onClick={() => setSelectedEpisodeUrl(server.url)}>
+                        {server.name}
+                        <i className="fa-solid fa-play"></i>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
+        </div>
             </main>
             <footer className='about-page'>
                 <p>&copy; 2023 luffy.to</p>
             </footer>
         </div>
-            </BrowserRouter>
     );
 }
 
