@@ -18,22 +18,26 @@
   color: dark light;
   text-wrap: balance;
 }
-.video {
-  position: relative;
+
+.episode-video-container {
+  position: relative; /* Make sure the container is positioned */
   width: 100%;
-  height: 100%;
   padding-bottom: 56.25%;
   overflow: hidden;
 }
+.video {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio (adjust as needed) */
+  overflow: hidden;
+}
 
-.video iframe {
+.video-player {
   position: absolute;
   width: 100%;
   height: 100%;
   border: none;
-  outline: none;
-  padding: 10px;
   background-color: var(--text-color);
+  padding: 5px;
   border-radius: 7px;
 }
 
