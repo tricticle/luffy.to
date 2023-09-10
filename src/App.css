@@ -19,31 +19,6 @@
   text-wrap: balance;
 }
 
-.video {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  overflow: hidden;
-}
-
-.video-player {
-  display: flex;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 16/9;
-  border: none;
-  background-color: var(--text-color);
-  padding: 3px;
-  border-radius: 7px;
-}
-
-@media screen and (max-width: 580px) {
-  .video-player iframe {
-    aspect-ratio: 4/3;
-  }
-}
-
 body {
   font-family: 'Unica One', cursive;
   scroll-behavior: smooth;
@@ -229,6 +204,38 @@ display: none;
   justify-content: center;
   align-items: center;
 }
+
+.video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+}
+
+.video-player {
+  display: flex;
+  position: absolute;
+  max-width: 100%;
+  max-height: 150%;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16/9;
+  border: none;
+  background-color: var(--text-color);
+  padding: 3px;
+  border-radius: 7px;
+}
+
+@media screen and (max-width: 580px) {
+  .video-player iframe {
+    aspect-ratio: 4/3;
+    max-width: 100%;
+    max-height: 150%;
+    background-color: var(--background-color);
+    box-shadow: 0px 4px 10px hsla(0, 0%, 0%, 0.305);
+  }
+}
+
 .anime-episodes h2{
   text-transform:uppercase;
   font-size: inherit;
@@ -255,19 +262,24 @@ display: none;
 .episode-list button{
   transition: var(--tran);
   width: calc(20% + 30px);
-  text-shadow: 0px 1px  5px var(--text-color);
   display: flex;
   margin: 5px;
   padding: 5px;
-  background-color: var(--text-color);
-  color: var(--background-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  box-shadow: 0px 4px 10px hsla(0, 0%, 0%, 0.3);
+  box-shadow: 0px 4px 10px hsla(251, 100%, 68%, 0.397);
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
+}
+.episode-list button:hover{
+  transition: var(--tran);
+  box-shadow: 0px 4px 10px hsla(0, 0%, 0%, 0.305);
+  background-color: var(--secondary-color);
+  color: var(--background-color);
 }
 
 .close-button {
