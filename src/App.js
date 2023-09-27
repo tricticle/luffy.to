@@ -186,11 +186,9 @@ return (
           <section className="anime-episodes">
             <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
             <h2>{selectedAnime.title.length > 30 ? selectedAnime.title.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
-            <div className="episode-list">
           <div className='video'>
             {selectedEpisodeUrl && (
               <iframe
-              className='video-player'
                 title="Anime Episode"
                 src={selectedEpisodeUrl}
                 allowFullScreen
@@ -198,6 +196,7 @@ return (
               />
             )}
           </div>
+          <div className="episode-list">
               {selectedAnime.episodes.map((episode) => (
                 <button
                   key={episode.id}
