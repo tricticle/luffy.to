@@ -213,7 +213,6 @@ display: none;
   display: flex;
   justify-content: center;
   overflow:hidden;
-  margin: 0px 300px 0px 300px;
 }
 
 .video iframe {
