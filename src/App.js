@@ -185,8 +185,8 @@ return (
         {selectedAnime && (
           <section className="anime-episodes">
             <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
-            <h2>{selectedAnime.title.length > 30 ? selectedAnime.title.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
           <div className='video'>
+          <h2>{selectedAnime.title.length > 30 ? selectedAnime.title.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
             {selectedEpisodeUrl && (
               <iframe
                 title="Anime Episode"
