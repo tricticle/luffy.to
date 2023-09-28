@@ -181,7 +181,6 @@ return (
           ))}
         </div>
       </section>
-      <div className='inset'>
         {selectedAnime && (
           <section className="anime-episodes">
             <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
@@ -221,7 +220,6 @@ return (
             )}
           </section>
         )}
-      </div>
     </main>
     <footer className='about-page'>
       <p>&copy; 2023 luffy.to</p>

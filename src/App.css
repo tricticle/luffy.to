@@ -179,27 +179,15 @@ display: none;
   font-family: 'Poppins', sans-serif;
 }
 
-.inset{
-  position: fixed;
-  top: 10;
-  overflow-y: auto;
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10
-}
-
 .anime-episodes{
   position: fixed;
+  height: 100%;
+  width: 100%;
   margin-top: 69px;
   inset: 0;
   background-color: var(--background-color);
   color: var(--text-color);
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 30px;
   z-index: 1;
   display: flex;
