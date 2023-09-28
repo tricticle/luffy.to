@@ -206,36 +206,28 @@ display: none;
 }
 
 .video {
-  height: 100%;
+  position: initial;
+  height: 100% !important ;
   width: 100%;
   display: flex;
   aspect-ratio: 16/9;
   border-radius: 7px;
   z-index: 10;
+  overflow: initial;
   flex-direction: column;
-  justify-content: center;
-  overflow:initial;
+  inset: 0;
 }
 
 iframe {
-  flex: 1;
+  flex:1;
+  padding: 1px;
+  margin: 7px;
   border: none;
   aspect-ratio: 16/9;
   overflow: hidden;
-  background-color: var(--background-color);
-  box-shadow: 0px 4px 10px hsla(0, 0%, 0%, 0.305);
+  background-color: var(--text-color);
   border-radius: 7px;
   overflow:inherit;
-}
-
-@media screen and (max-width: 580px) {
-  .video-player iframe {
-    aspect-ratio: 4/3;
-    max-width: 100%;
-    max-height: 150%;
-    background-color: var(--background-color);
-    box-shadow: 0px 4px 10px hsla(0, 0%, 0%, 0.305);
-  }
 }
 
 .anime-episodes h2{
