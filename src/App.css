@@ -184,6 +184,12 @@ display: none;
   top: 10;
   overflow-y: auto;
   background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10
 }
 
 .anime-episodes{
@@ -206,28 +212,18 @@ display: none;
 }
 
 .video {
-  position: initial;
   height: 100% !important ;
   width: 100%;
   display: flex;
-  aspect-ratio: 16/9;
-  border-radius: 7px;
-  z-index: 10;
-  overflow: initial;
   flex-direction: column;
-  inset: 0;
 }
 
 iframe {
   flex:1;
-  padding: 1px;
-  margin: 7px;
   border: none;
   aspect-ratio: 16/9;
-  overflow: hidden;
-  background-color: var(--text-color);
+  background-color: transparent;
   border-radius: 7px;
-  overflow:inherit;
 }
 
 .anime-episodes h2{
@@ -239,7 +235,6 @@ iframe {
 }
 
 .episode-list{
-  flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -276,6 +271,47 @@ iframe {
   background-color: var(--secondary-color);
   color: var(--background-color);
 }
+
+.server-list{ 
+  background-color: var(--primary-color); 
+  margin: 10px; 
+  text-align: center; 
+  padding: 10px; 
+  border-radius: 5px; 
+} 
+.server-list .server-btn { 
+  display: flex; 
+  text-align: center; 
+  inset: 0; 
+  border-radius: 100%; 
+  flex-direction: row; 
+  flex-wrap: wrap; 
+} 
+ 
+.server-btn button{ 
+  flex: 1; 
+  background-color: var(--background-color); 
+  display: flex; 
+  padding: 5px; 
+  margin: 3px; 
+  border: none; 
+  border-radius: 10px; 
+  flex-direction: row; 
+  flex-wrap: nowrap; 
+  align-content: center; 
+  justify-content: space-between; 
+  align-items: center; 
+  animation: color 15s infinite; 
+  font-size: 10px; 
+} 
+ 
+.server-list a { 
+  font-family: 'Unica One', sans-serif; 
+  font-weight: 900; 
+  text-decoration: none; 
+  color: var(--text-color); 
+  text-align: center; 
+} 
 
 .close-button {
   position: absolute;
@@ -414,48 +450,6 @@ iframe {
   text-align: center;
   padding-bottom: 10px;
 }
-
-.server-list{ 
-   background-color: var(--primary-color); 
-   margin: 10px; 
-   text-align: center; 
-   padding: 10px; 
-   border-radius: 5px; 
- } 
- .server-list .server-btn { 
-   display: flex; 
-   text-align: center; 
-   inset: 0; 
-   border-radius: 100%; 
-   flex-direction: row; 
-   flex-wrap: wrap; 
- } 
-  
- .server-btn button{ 
-   flex: 1; 
-   background-color: var(--background-color); 
-   display: flex; 
-   padding: 5px; 
-   margin: 3px; 
-   border: none; 
-   border-radius: 10px; 
-   flex-direction: row; 
-   flex-wrap: nowrap; 
-   align-content: center; 
-   justify-content: space-between; 
-   align-items: center; 
-   animation: color 15s infinite; 
-   font-size: 10px; 
- } 
-  
- .server-list a { 
-   font-family: 'Unica One', sans-serif; 
-   font-weight: 900; 
-   text-decoration: none; 
-   color: var(--text-color); 
-   text-align: center; 
- } 
- 
 
 /* Additional styles for buttons */
 
