@@ -85,7 +85,7 @@ function App() {
 
         // Assuming the first server in the list has the episode URL
         if (response.data.length > 0) {
-          setSelectedEpisodeUrl(response.data[0].url);
+          setSelectedEpisodeUrl(response.data[1].url);
         }
       } catch (error) {
         console.error("Error fetching server:", error);
