@@ -215,6 +215,11 @@ iframe {
   border-radius: 7px;
 }
 
+iframe::-webkit-scrollbar {
+  display: none;
+  color: transparent;
+}
+
 .anime-episodes h2{
   text-transform:uppercase;
   font-size: inherit;
@@ -232,6 +237,7 @@ iframe {
   height: 100%;
   width: 100%;
   padding: 10px;
+  margin: 17px;
 }
 
 .episode-list::-webkit-scrollbar {
