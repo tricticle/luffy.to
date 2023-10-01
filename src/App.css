@@ -236,8 +236,9 @@ iframe::-webkit-scrollbar {
   align-items: flex-start;
   height: 100%;
   width: 100%;
-  padding: 10px;
-  margin: 17px;
+  padding: 17px;
+  margin: 10px;
+  border-radius: 5px;
 }
 
 .episode-list::-webkit-scrollbar {
@@ -269,7 +270,8 @@ iframe::-webkit-scrollbar {
 
 .server-list{ 
   background-color: var(--primary-color); 
-  margin: 20px 10px 70px 10px;
+  margin-bottom: 35px;
+  height: auto;
   text-align: center; 
   padding: 10px; 
   border-radius: 5px; 
