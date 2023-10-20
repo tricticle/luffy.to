@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
 
@@ -10,8 +10,9 @@ function App() {
   const [selectedServer, setSelectedServer] = useState([]);
   const [selectedEpisodeUrl, setSelectedEpisodeUrl] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [popularPage, setPopularPage] = useState(0); // Initialize popularPage to 0
-  const [fetchedFirstPage, setFetchedFirstPage] = useState(false); // Boolean flag
+  const [popularPage, setPopularPage] = useState(1);
+  const [fetchingMoreData, setFetchingMoreData] = useState(false);
+  const bottomRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,42 +26,54 @@ function App() {
         } else {
           setSearchResults([]);
         }
-
-        // Increment popularPage by 1 when fetching data,
-        // but only if the first page has been fetched
-        if (fetchedFirstPage) {
-          const currentPage = popularPage + 1;
-
-          // Fetch top airing anime for the current page
-          const response = await axios.get(
-            `https://api.consumet.org/anime/gogoanime/top-airing`,
-            { params: { page: currentPage } }
-          );
-          const newTopAiringAnime = response.data.results;
-
-          // Append the new data to the existing list of top airing anime
-          setTopAiringAnime((prevTopAiringAnime) => [
-            ...prevTopAiringAnime,
-            ...newTopAiringAnime,
-          ]);
-
-          // Update popularPage after successfully fetching data
-          setPopularPage(currentPage);
-        } else {
-          // If the first page hasn't been fetched yet, set the flag
-          setFetchedFirstPage(true);
-        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [searchQuery, popularPage, fetchedFirstPage]); // Include popularPage in the dependency array
+  }, [searchQuery]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+    const fetchTopAiringAnime = async (page) => {
+      const url = "https://api.consumet.org/anime/gogoanime/top-airing";
+      try {
+        const { data } = await axios.get(url, { params: { page } });
+        if (page === 1) {
+          setTopAiringAnime(data.results);
+        } else {
+          setTopAiringAnime((prevTopAiringAnime) => [...prevTopAiringAnime, ...data.results]);
+        }
+      } catch (error) {
+        console.error("Error fetching top airing anime:", error);
+      } finally {
+        setFetchingMoreData(false);
+      }
+    };
+
+    fetchTopAiringAnime(popularPage);
+  }, [popularPage]);
+
+  useEffect(() => {
+    const handleIntersection = (entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting && !fetchingMoreData) {
+        setFetchingMoreData(true);
+        setPopularPage((prevPage) => prevPage + 1);
+      }
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, { threshold: 0.1 });
+    observer.observe(bottomRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [fetchingMoreData]);
 
   const fetchEpisodes = async (animeId) => {
     try {
@@ -85,7 +98,7 @@ function App() {
 
         // Assuming the first server in the list has the episode URL
         if (response.data.length > 0) {
-          setSelectedEpisodeUrl(response.data[1].url);
+          setSelectedEpisodeUrl(response.data[0].url);
         }
       } catch (error) {
         console.error("Error fetching server:", error);
@@ -93,81 +106,37 @@ function App() {
     }
   };
 
-  // Function to handle scrolling and trigger fetch when reaching the bottom
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
-    ) {
-      // User has reached the bottom, so fetch more data
-      setPopularPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  useEffect(() => {
-    // Add a scroll event listener to the window
-    window.addEventListener("scroll", handleScroll);
-
-    // Remove the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-// ... Rest of your code ...
-
-return (
-  <div>
-    <section className="wrapper">
-      <header className='header'>
-        <h1>luffy.to</h1>
-        <div className="search-bar">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search for anime..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        <div className="menu-btn">
-          <button onClick={toggleMenu}>
-            <i className="fas fa-bars"></i>
-          </button>
-          <div className={`dropdown ${isMenuOpen ? 'open' : ''}`}>
-            <ul>
-              <li>adding options soon</li>
-            </ul>
-          </div>
-        </div>
-      </header>
-    </section>
-
-    <section className="search-results">
-      <div className="anime-list">
-        {searchResults.map((anime) => (
-          <div key={anime.id} className="anime-card">
-            <img
-              src={anime.image}
-              alt={anime.title}
-              loading="lazy" // Add loading="lazy" here
+  return (
+    <div>
+      <section className="wrapper">
+        <header className='header'>
+          <h1>luffy.to</h1>
+          <div className="search-bar">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search for anime..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <div className='ani-detail'>
-              <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
-              <p>{anime.subOrDub}</p>
-            </div>
-            <button onClick={() => fetchEpisodes(anime.id)}><i className="fa-solid fa-play"></i></button>
           </div>
-        ))}
-      </div>
-    </section>
+          <div className="menu-btn">
+            <button onClick={toggleMenu}>
+              <i className="fas fa-bars"></i>
+            </button>
+            <div className={`dropdown ${isMenuOpen ? 'open' : ''}`}>
+              <ul>
+                <li>adding options soon</li>
+              </ul>
+            </div>
+          </div>
+        </header>
+      </section>
 
-    <main className='container'>
-      <section className="top-airing">
-        <h2>Popular</h2>
+      <section className="search-results">
         <div className="anime-list">
-          {topAiringAnime.map((anime) => (
-            <div key={anime.id} className="anime-card" onClick={() => fetchEpisodes(anime.id)}>
+          {searchResults.map((anime) => (
+            <div key={anime.id} className="anime-card">
               <img
                 src={anime.image}
                 alt={anime.title}
@@ -175,27 +144,50 @@ return (
               />
               <div className='ani-detail'>
                 <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
-                <p>{anime.genres.slice(0, 3).join(', ')}</p>
+                <p>{anime.subOrDub}</p>
               </div>
+              <button onClick={() => fetchEpisodes(anime.id)}><i className="fa-solid fa-play"></i></button>
             </div>
           ))}
         </div>
       </section>
+
+      <main className='container'>
+        <section className="top-airing">
+          <h2>Popular</h2>
+          <div className="anime-list">
+            {topAiringAnime.map((anime) => (
+              <div key={anime.id} className="anime-card" onClick={() => fetchEpisodes(anime.id)}>
+                <img
+                  src={anime.image}
+                  alt={anime.title}
+                  loading="lazy" // Add loading="lazy" here
+                />
+                <div className='ani-detail'>
+                  <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
+                  <p>{anime.genres.slice(0, 3).join(', ')}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          {fetchingMoreData && <p>Loading more anime...</p>}
+          <div ref={bottomRef} style={{ height: '1px' }}></div>
+        </section>
         {selectedAnime && (
           <section className="anime-episodes">
             <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
-          <div className='video'>
-          <h2>{selectedAnime.title.length > 30 ? selectedAnime.title.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
-            {selectedEpisodeUrl && (
-              <iframe
-                title="Anime Episode"
-                src={selectedEpisodeUrl}
-                allowFullScreen
-                referrerpolicy="origin-when-cross-origin"
-              />
-            )}
-          </div>
-          <div className="episode-list">
+            <div className='video'>
+              <h2>{selectedAnime.title.length > 30 ? selectedAnime.title.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
+              {selectedEpisodeUrl && (
+                <iframe
+                  title="Anime Episode"
+                  src={selectedEpisodeUrl}
+                  allowFullScreen
+                  referrerpolicy="origin-when-cross-origin"
+                />
+              )}
+            </div>
+            <div className="episode-list">
               {selectedAnime.episodes.map((episode) => (
                 <button
                   key={episode.id}
@@ -220,12 +212,12 @@ return (
             )}
           </section>
         )}
-    </main>
-    <footer className='about-page'>
-      <p>&copy; 2023 luffy.to</p>
-    </footer>
-  </div>
-);
+      </main>
+      <footer className='about-page'>
+        <p>&copy; 2023 luffy.to</p>
+      </footer>
+    </div>
+  );
 }
 
 export default App;
