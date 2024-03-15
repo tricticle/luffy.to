@@ -39,7 +39,7 @@ function App() {
 
   useEffect(() => {
     const fetchTopAiringAnime = async (page) => {
-      const url = "https://luffy-api.vercel.app/anime/gogoanime/top-airing";
+      const url ="https://luffy-api.vercel.app/anime/gogoanime/top-airing";
       try {
         const { data } = await axios.get(url, { params: { page } });
         if (page === 1) {
@@ -76,8 +76,7 @@ function App() {
 
   const fetchEpisodes = async (animeId) => {
     try {
-      const response = await axios.get(
-        `https://luffy-api.vercel.app/anime/gogoanime/info/${animeId}`
+      const response = await axios.get(`https://luffy-api.vercel.app/anime/gogoanime/info/${animeId}`
       );
       setSelectedAnime(response.data);
       console.log(response.data);
@@ -89,8 +88,7 @@ function App() {
   const watchEpisode = async (episodeId) => {
     if (selectedAnime) {
       try {
-        const response = await axios.get(
-          `https://luffy-api.vercel.app/anime/gogoanime/servers/${episodeId}`
+        const response = await axios.get(`https://luffy-api.vercel.app/anime/gogoanime/servers/${episodeId}`
         );
         setSelectedServer(response.data);
         console.log(response.data);
