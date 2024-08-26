@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import './App.css';
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import "./App.css";
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [topAiringAnime, setTopAiringAnime] = useState([]);
   const [selectedAnime, setSelectedAnime] = useState(null);
-  const [selectedServer, setSelectedServer] = useState([]);
-  const [selectedEpisodeUrl, setSelectedEpisodeUrl] = useState('');
+  const [selectedEpisode, setSelectedEpisode] = useState(null);
+  const [selectedQuality, setSelectedQuality] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [popularPage, setPopularPage] = useState(1);
   const [fetchingMoreData, setFetchingMoreData] = useState(false);
@@ -18,10 +18,10 @@ function App() {
     const fetchData = async () => {
       try {
         if (searchQuery) {
-          const response = await axios.get(`https://luffy-api.vercel.app/anime/gogoanime/${searchQuery}?page=1`
+          const response = await axios.get(
+            `https://luffy-api.vercel.app/anime/gogoanime/${searchQuery}?page=1`
           );
           setSearchResults(response.data.results);
-          console.log(response.data);
         } else {
           setSearchResults([]);
         }
@@ -39,13 +39,16 @@ function App() {
 
   useEffect(() => {
     const fetchTopAiringAnime = async (page) => {
-      const url ="https://luffy-api.vercel.app/anime/gogoanime/top-airing";
+      const url = "https://luffy-api.vercel.app/anime/gogoanime/popular";
       try {
         const { data } = await axios.get(url, { params: { page } });
         if (page === 1) {
           setTopAiringAnime(data.results);
         } else {
-          setTopAiringAnime((prevTopAiringAnime) => [...prevTopAiringAnime, ...data.results]);
+          setTopAiringAnime((prevTopAiringAnime) => [
+            ...prevTopAiringAnime,
+            ...data.results,
+          ]);
         }
       } catch (error) {
         console.error("Error fetching top airing anime:", error);
@@ -66,7 +69,9 @@ function App() {
       }
     };
 
-    const observer = new IntersectionObserver(handleIntersection, { threshold: 0.1 });
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold: 0.1,
+    });
     observer.observe(bottomRef.current);
 
     return () => {
@@ -76,37 +81,40 @@ function App() {
 
   const fetchEpisodes = async (animeId) => {
     try {
-      const response = await axios.get(`https://luffy-api.vercel.app/anime/gogoanime/info/${animeId}`
+      const response = await axios.get(
+        `https://luffy-api.vercel.app/anime/gogoanime/info/${animeId}`
       );
       setSelectedAnime(response.data);
-      console.log(response.data);
+      setSelectedEpisode(null);
+      setSelectedQuality(null);
     } catch (error) {
       console.error("Error fetching episodes:", error);
     }
   };
 
-  const watchEpisode = async (episodeId) => {
-    if (selectedAnime) {
-      try {
-        const response = await axios.get(`https://luffy-api.vercel.app/anime/gogoanime/servers/${episodeId}`
-        );
-        setSelectedServer(response.data);
-        console.log(response.data);
-
-        // Assuming the first server in the list has the episode URL
-        if (response.data.length > 0) {
-          setSelectedEpisodeUrl(response.data[0].url);
-        }
-      } catch (error) {
-        console.error("Error fetching server:", error);
+  const fetchEpisodeDetails = async (episodeId) => {
+    try {
+      const response = await axios.get(
+        `https://luffy-api.vercel.app/anime/gogoanime/watch/${episodeId}`
+      );
+      const { sources } = response.data;
+      if (!selectedQuality && sources.length) {
+        setSelectedQuality(sources[0].url);
       }
+      setSelectedEpisode(response.data);
+    } catch (error) {
+      console.error("Error fetching episode details:", error);
     }
+  };
+
+  const handleQualityChange = (url) => {
+    setSelectedQuality(url);
   };
 
   return (
     <div>
       <section className="wrapper">
-        <header className='header'>
+        <header className="header">
           <h1>luffy.to</h1>
           <div className="search-bar">
             <input
@@ -121,7 +129,7 @@ function App() {
             <button onClick={toggleMenu}>
               <i className="fas fa-bars"></i>
             </button>
-            <div className={`dropdown ${isMenuOpen ? 'open' : ''}`}>
+            <div className={`dropdown ${isMenuOpen ? "open" : ""}`}>
               <ul>
                 <li>adding options soon</li>
               </ul>
@@ -134,74 +142,96 @@ function App() {
         <div className="anime-list">
           {searchResults.map((anime) => (
             <div key={anime.id} className="anime-card">
-              <img
-                src={anime.image}
-                alt={anime.title}
-                loading="lazy" // Add loading="lazy" here
-              />
-              <div className='ani-detail'>
-                <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
+              <img src={anime.image} alt={anime.title} loading="lazy" />
+              <div className="ani-detail">
+                <h3>
+                  {anime.title.length > 30
+                    ? anime.title.substring(0, 30) + "..."
+                    : anime.title}
+                </h3>
                 <p>{anime.subOrDub}</p>
               </div>
-              <button onClick={() => fetchEpisodes(anime.id)}><i className="fa-solid fa-play"></i></button>
+              <button onClick={() => fetchEpisodes(anime.id)}>
+                <i className="fa-solid fa-play"></i>
+              </button>
             </div>
           ))}
         </div>
       </section>
 
-      <main className='container'>
+      <main className="container">
         <section className="top-airing">
           <h2>Popular</h2>
           <div className="anime-list">
             {topAiringAnime.map((anime) => (
-              <div key={anime.id} className="anime-card" onClick={() => fetchEpisodes(anime.id)}>
-                <img
-                  src={anime.image}
-                  alt={anime.title}
-                  loading="lazy" // Add loading="lazy" here
-                />
-                <div className='ani-detail'>
-                  <h3>{anime.title.length > 30 ? anime.title.substring(0, 30) + '...' : anime.title}</h3>
-                  <p>{anime.genres.slice(0, 3).join(', ')}</p>
+              <div
+                key={anime.id}
+                className="anime-card"
+                onClick={() => fetchEpisodes(anime.id)}
+              >
+                <img src={anime.image} alt={anime.title} loading="lazy" />
+                <div className="ani-detail">
+                  <h3>
+                    {anime.title.length > 30
+                      ? anime.title.substring(0, 30) + "..."
+                      : anime.title}
+                  </h3>
+                  <p>{anime.genres}</p>
                 </div>
               </div>
             ))}
           </div>
           {fetchingMoreData && <p>Loading more anime...</p>}
-          <div ref={bottomRef} style={{ height: '1px' }}></div>
+          <div ref={bottomRef} style={{ height: "1px" }}></div>
         </section>
         {selectedAnime && (
           <section className="anime-episodes">
-            <button className="close-button" onClick={() => setSelectedAnime(null)}> <i className="fas fa-close"></i></button>
-            <div className='video'>
-              <h2>{selectedAnime.title.length > 30 ? selectedAnime.title.substring(0, 30) + '...' : selectedAnime.title} episodes</h2>
-              {selectedEpisodeUrl && (
+            <button
+              className="close-button"
+              onClick={() => setSelectedAnime(null)}
+            >
+              {" "}
+              <i className="fas fa-close"></i>
+            </button>
+            <div className="video">
+              <h2>
+                {selectedAnime.title.length > 30
+                  ? selectedAnime.title.substring(0, 30) + "..."
+                  : selectedAnime.title}{" "}
+                episodes
+              </h2>
+              {selectedQuality && (
                 <iframe
-                  title="Anime Episode"
-                  src={selectedEpisodeUrl}
+                  src={`https://www.hlsplayer.net/embed?type=m3u8&src=${selectedQuality}`}
+                  title="Video Player"
+                  width="100%"
+                  height="500px"
                   allowFullScreen
-                  referrerpolicy="origin-when-cross-origin"
-                />
+                ></iframe>
               )}
             </div>
             <div className="episode-list">
               {selectedAnime.episodes.map((episode) => (
                 <button
                   key={episode.id}
-                  onClick={() => watchEpisode(episode.id)}>
+                  onClick={() => {
+                    fetchEpisodeDetails(episode.id);
+                    setSelectedEpisode(episode);
+                  }}
+                >
                   Episode {episode.number}
                 </button>
               ))}
             </div>
-            {selectedServer.length > 0 && (
+            {selectedEpisode && selectedEpisode.sources && (
               <div className="server-list">
-                <div className='server-btn'>
-                  {selectedServer.map(server => (
+                <div className="server-btn">
+                  {selectedEpisode.sources.map((source) => (
                     <button
-                      key={server.name}
-                      onClick={() => setSelectedEpisodeUrl(server.url)}>
-                      {server.name}
-                      <i className="fa-solid fa-play"></i>
+                      key={source.quality}
+                      onClick={() => handleQualityChange(source.url)}
+                    >
+                      {source.quality}
                     </button>
                   ))}
                 </div>
@@ -210,7 +240,7 @@ function App() {
           </section>
         )}
       </main>
-      <footer className='about-page'>
+      <footer className="about-page">
         <p>&copy; 2023 luffy.to</p>
       </footer>
     </div>
